@@ -1,0 +1,256 @@
+#! /usr/bin/vvp
+:ivl_version "11.0 (stable)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 12;
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/system.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_sys.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/vhdl_textio.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2005_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/va_math.vpi";
+:vpi_module "/usr/lib/x86_64-linux-gnu/ivl/v2009.vpi";
+S_0x5c97078c2480 .scope package, "$unit" "$unit" 2 1;
+ .timescale 0 0;
+S_0x5c97078cd5e0 .scope module, "baud_gen_tb" "baud_gen_tb" 3 10;
+ .timescale -9 -12;
+P_0x5c9707893620 .param/l "BAUD_RATE" 1 3 14, +C4<00000000000000011100001000000000>;
+P_0x5c9707893660 .param/l "CLK_FREQ" 1 3 13, +C4<00000010111110101111000010000000>;
+P_0x5c97078936a0 .param/l "DIVISOR" 1 3 15, +C4<00000000000000000000000110110010>;
+v0x5c97078c0140_0 .var "clk", 0 0;
+v0x5c97078f0740_0 .var/i "cycle_count", 31 0;
+v0x5c97078f0800_0 .var/i "errors", 31 0;
+v0x5c97078f08f0_0 .var/i "last_tick_cycle", 31 0;
+v0x5c97078f09d0_0 .var/i "period", 31 0;
+v0x5c97078f0b00_0 .var "rst", 0 0;
+v0x5c97078f0ba0_0 .net "tick", 0 0, v0x5c97078c01e0_0;  1 drivers
+v0x5c97078f0c70_0 .var/i "tick_count", 31 0;
+E_0x5c9707892570 .event posedge, v0x5c97078c01e0_0;
+S_0x5c9707891cf0 .scope module, "uut" "baud_gen" 3 24, 4 13 0, S_0x5c97078cd5e0;
+ .timescale 0 0;
+    .port_info 0 /INPUT 1 "clk";
+    .port_info 1 /INPUT 1 "rst";
+    .port_info 2 /OUTPUT 1 "tick";
+P_0x5c9707891ed0 .param/l "BAUD_RATE" 0 4 15, +C4<00000000000000011100001000000000>;
+P_0x5c9707891f10 .param/l "CLK_FREQ" 0 4 14, +C4<00000010111110101111000010000000>;
+P_0x5c9707891f50 .param/l "DIVISOR" 1 4 23, +C4<00000000000000000000000110110010>;
+v0x5c97078bbc10_0 .net "clk", 0 0, v0x5c97078c0140_0;  1 drivers
+v0x5c97078be1e0_0 .var "count", 8 0;
+v0x5c97078be5b0_0 .net "rst", 0 0, v0x5c97078f0b00_0;  1 drivers
+v0x5c97078c01e0_0 .var "tick", 0 0;
+E_0x5c97078cb7b0 .event posedge, v0x5c97078bbc10_0;
+    .scope S_0x5c9707891cf0;
+T_0 ;
+    %wait E_0x5c97078cb7b0;
+    %load/vec4 v0x5c97078be5b0_0;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_0.0, 8;
+    %pushi/vec4 0, 0, 9;
+    %assign/vec4 v0x5c97078be1e0_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x5c97078c01e0_0, 0;
+    %jmp T_0.1;
+T_0.0 ;
+    %load/vec4 v0x5c97078be1e0_0;
+    %pad/u 32;
+    %cmpi/e 433, 0, 32;
+    %jmp/0xz  T_0.2, 4;
+    %pushi/vec4 0, 0, 9;
+    %assign/vec4 v0x5c97078be1e0_0, 0;
+    %pushi/vec4 1, 0, 1;
+    %assign/vec4 v0x5c97078c01e0_0, 0;
+    %jmp T_0.3;
+T_0.2 ;
+    %load/vec4 v0x5c97078be1e0_0;
+    %addi 1, 0, 9;
+    %assign/vec4 v0x5c97078be1e0_0, 0;
+    %pushi/vec4 0, 0, 1;
+    %assign/vec4 v0x5c97078c01e0_0, 0;
+T_0.3 ;
+T_0.1 ;
+    %jmp T_0;
+    .thread T_0;
+    .scope S_0x5c97078cd5e0;
+T_1 ;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x5c97078c0140_0, 0, 1;
+    %end;
+    .thread T_1;
+    .scope S_0x5c97078cd5e0;
+T_2 ;
+    %delay 10000, 0;
+    %load/vec4 v0x5c97078c0140_0;
+    %inv;
+    %store/vec4 v0x5c97078c0140_0, 0, 1;
+    %jmp T_2;
+    .thread T_2;
+    .scope S_0x5c97078cd5e0;
+T_3 ;
+    %vpi_call/w 3 36 "$dumpfile", "waveforms/baud_gen.vcd" {0 0 0};
+    %vpi_call/w 3 37 "$dumpvars", 32'sb00000000000000000000000000000000, S_0x5c97078cd5e0 {0 0 0};
+    %end;
+    .thread T_3;
+    .scope S_0x5c97078cd5e0;
+T_4 ;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x5c97078f0800_0, 0, 32;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x5c97078f0c70_0, 0, 32;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x5c97078f0740_0, 0, 32;
+    %pushi/vec4 0, 0, 32;
+    %store/vec4 v0x5c97078f08f0_0, 0, 32;
+    %pushi/vec4 1, 0, 1;
+    %store/vec4 v0x5c97078f0b00_0, 0, 1;
+    %pushi/vec4 5, 0, 32;
+T_4.0 %dup/vec4;
+    %pushi/vec4 0, 0, 32;
+    %cmp/s;
+    %jmp/1xz T_4.1, 5;
+    %jmp/1 T_4.1, 4;
+    %pushi/vec4 1, 0, 32;
+    %sub;
+    %wait E_0x5c97078cb7b0;
+    %jmp T_4.0;
+T_4.1 ;
+    %pop/vec4 1;
+    %pushi/vec4 0, 0, 1;
+    %store/vec4 v0x5c97078f0b00_0, 0, 1;
+    %vpi_call/w 3 58 "$display", "=== BAUD GEN TESTBENCH ===" {0 0 0};
+    %vpi_call/w 3 59 "$display", "CLK_FREQ  = %0d Hz", P_0x5c9707893660 {0 0 0};
+    %vpi_call/w 3 60 "$display", "BAUD_RATE = %0d baud", P_0x5c9707893620 {0 0 0};
+    %vpi_call/w 3 61 "$display", "Expected DIVISOR = %0d cycles per tick", P_0x5c97078936a0 {0 0 0};
+    %vpi_call/w 3 62 "$display", "==========================\012" {0 0 0};
+    %wait E_0x5c97078cb7b0;
+    %delay 1000, 0;
+    %fork t_1, S_0x5c97078cd5e0;
+    %fork t_2, S_0x5c97078cd5e0;
+    %join;
+    %join;
+    %jmp t_0;
+t_1 ;
+T_4.2 ;
+    %wait E_0x5c97078cb7b0;
+    %load/vec4 v0x5c97078f0740_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x5c97078f0740_0, 0, 32;
+    %jmp T_4.2;
+    %end;
+t_2 ;
+    %pushi/vec4 10, 0, 32;
+T_4.3 %dup/vec4;
+    %pushi/vec4 0, 0, 32;
+    %cmp/s;
+    %jmp/1xz T_4.4, 5;
+    %jmp/1 T_4.4, 4;
+    %pushi/vec4 1, 0, 32;
+    %sub;
+    %wait E_0x5c9707892570;
+    %load/vec4 v0x5c97078f0c70_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x5c97078f0c70_0, 0, 32;
+    %load/vec4 v0x5c97078f0740_0;
+    %load/vec4 v0x5c97078f08f0_0;
+    %sub;
+    %store/vec4 v0x5c97078f09d0_0, 0, 32;
+    %load/vec4 v0x5c97078f0740_0;
+    %store/vec4 v0x5c97078f08f0_0, 0, 32;
+    %load/vec4 v0x5c97078f09d0_0;
+    %cmpi/e 434, 0, 32;
+    %flag_mov 8, 4;
+    %load/vec4 v0x5c97078f0c70_0;
+    %cmpi/e 1, 0, 32;
+    %flag_or 4, 8;
+    %flag_mov 8, 4;
+    %jmp/0 T_4.5, 8;
+    %pushi/vec4 0, 0, 32; draw_string_vec4
+    %pushi/vec4 0, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %pushi/vec4 0, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %pushi/vec4 0, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %pushi/vec4 0, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %pushi/vec4 20299, 0, 24; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %jmp/1 T_4.6, 8;
+T_4.5 ; End of true expr.
+    %pushi/vec4 1163022927, 0, 32; draw_string_vec4
+    %pushi/vec4 18446744073709551488, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %pushi/vec4 18446744071899740018, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %pushi/vec4 1869506336, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %pushi/vec4 1885696617, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %pushi/vec4 7300129, 0, 24; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %jmp/0 T_4.6, 8;
+ ; End of false expr.
+    %blend;
+T_4.6;
+    %vpi_call/w 3 83 "$display", "Tick %0d at cycle %0d | Period = %0d cycles | %s", v0x5c97078f0c70_0, v0x5c97078f0740_0, v0x5c97078f09d0_0, S<0,vec4,u184> {1 0 0};
+    %pushi/vec4 1, 0, 32;
+    %load/vec4 v0x5c97078f0c70_0;
+    %cmp/s;
+    %flag_get/vec4 5;
+    %load/vec4 v0x5c97078f09d0_0;
+    %pushi/vec4 434, 0, 32;
+    %cmp/ne;
+    %flag_get/vec4 6;
+    %and;
+    %flag_set/vec4 8;
+    %jmp/0xz  T_4.7, 8;
+    %load/vec4 v0x5c97078f0800_0;
+    %addi 1, 0, 32;
+    %store/vec4 v0x5c97078f0800_0, 0, 32;
+T_4.7 ;
+    %jmp T_4.3;
+T_4.4 ;
+    %pop/vec4 1;
+    %vpi_call/w 3 96 "$display", "\012=== RESULTS ===" {0 0 0};
+    %vpi_call/w 3 97 "$display", "Ticks observed : %0d", v0x5c97078f0c70_0 {0 0 0};
+    %vpi_call/w 3 98 "$display", "Expected period: %0d cycles", P_0x5c97078936a0 {0 0 0};
+    %vpi_call/w 3 99 "$display", "Errors         : %0d", v0x5c97078f0800_0 {0 0 0};
+    %load/vec4 v0x5c97078f0800_0;
+    %cmpi/e 0, 0, 32;
+    %flag_mov 8, 4;
+    %jmp/0 T_4.9, 8;
+    %pushi/vec4 1095519264, 0, 32; draw_string_vec4
+    %pushi/vec4 1346458451, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %pushi/vec4 18446744073709551507, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %jmp/1 T_4.10, 8;
+T_4.9 ; End of true expr.
+    %pushi/vec4 17985, 0, 32; draw_string_vec4
+    %pushi/vec4 1229735236, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %pushi/vec4 18446744073709551511, 0, 32; draw_string_vec4
+    %concat/vec4; draw_string_vec4
+    %jmp/0 T_4.10, 8;
+ ; End of false expr.
+    %blend;
+T_4.10;
+    %vpi_call/w 3 100 "$display", "Status         : %s", S<0,vec4,u96> {1 0 0};
+    %vpi_call/w 3 102 "$display", "===============\012" {0 0 0};
+    %vpi_call/w 3 103 "$finish" {0 0 0};
+    %end;
+    .scope S_0x5c97078cd5e0;
+t_0 ;
+    %end;
+    .thread T_4;
+    .scope S_0x5c97078cd5e0;
+T_5 ;
+    %delay 1410065408, 2;
+    %vpi_call/w 3 111 "$display", "WATCHDOG: simulation timeout!" {0 0 0};
+    %vpi_call/w 3 112 "$finish" {0 0 0};
+    %end;
+    .thread T_5;
+# The file index is used to find the file name in the following table.
+:file_names 5;
+    "N/A";
+    "<interactive>";
+    "-";
+    "tb/baud_gen_tb.v";
+    "rtl/baud_gen.v";
